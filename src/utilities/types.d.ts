@@ -11,4 +11,4 @@ export interface IUser {
   password: string;
 }
 
-export type Role = 'ADMIN_ROLE' | 'USER_ROLE'
+export type Role = 'ADMIN_ROLE' | 'USER_ROLE' | 'SALE_ROLE'

@@ -1,33 +1,55 @@
-import { type Request, Response } from "express";
-import User from "../models/user";
+import { type Request, Response } from 'express';
+import bcryptjs from 'bcryptjs';
 
-const getUsers = (_req: Request, res: Response) => {
+import User from '../models/user';
+import { IUser } from '../utilities/types';
+
+const getUsers = async (req: Request, res: Response) => {
+
+  const { limit = 5, from = 0 } = req.query;
+
+  const [total, users] = await Promise.all([
+    User.countDocuments({ status: true }),
+    User.find({ status: true })
+      .skip(Number(from))
+      .limit(Number(limit))
+  ])
 
   res.json({
-    "msg": 'get'
+    total,
+    users
   });
 }
 
 const postUsers = async (req: Request, res: Response) => {
 
+  const { name, email, password, rol }: IUser = req.body;
+  const user = new User({ name, email, password, rol });
 
-  const { body } = req;
-  const user = new User(body);
+  // Crypt the password
+  const salt = bcryptjs.genSaltSync();
+  user.password = bcryptjs.hashSync(password, salt);
+
+  // Save on db
   await user.save();
 
-  res.json({
-    user
-  });
+  return res.json({ user });
 }
 
-const putUsers = (req: Request, res: Response) => {
+const putUsers = async (req: Request, res: Response) => {
 
-  const { id } = req.params
+  const { id } = req.params;
+  const { _id, password, google, email, ...spread } = req.body;
 
-  res.status(201).json({
-    "msg": 'post',
-    id
-  });
+  if (password) {
+    // Crypt the password
+    const salt = bcryptjs.genSaltSync();
+    spread.password = bcryptjs.hashSync(password, salt);
+  };
+
+  const user = await User.findByIdAndUpdate(id, spread, { new: true })
+
+  res.status(201).json(user);
 }
 
 const patchUsers = (_req: Request, res: Response) => {
@@ -37,11 +59,17 @@ const patchUsers = (_req: Request, res: Response) => {
   });
 }
 
-const deleteUsers = (_req: Request, res: Response) => {
+const deleteUsers = async (req: Request, res: Response) => {
 
-  res.json({
-    "msg": 'delete'
-  });
+  const { id } = req.params;
+
+  // Delete on database
+  // const user = await User.findByIdAndDelete(id)
+
+  // Logic Delete
+  const user = await User.findByIdAndUpdate(id, { status: false, new: true });
+
+  res.json(user);
 }
 
 export {
