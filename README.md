@@ -21,3 +21,11 @@ You need:
 ## Database
 
 The data base uses a mongo:6.0 and mongo-express:1.0.0-alpha.4 images from docker
+
+On the file .env, copy the variable named GOOGLE_CLIENT_ID and paste in 'public/index' and search:
+
+```html
+<div id="g_id_onload" data-client_id={GOOGLE_CLIENT_ID} <- HERE
+    data-auto_prompt="false" data-callback="handleCredentialResponse">
+</div>
+```
