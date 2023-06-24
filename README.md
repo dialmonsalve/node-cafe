@@ -28,4 +28,8 @@ On the file .env, copy the variable named GOOGLE_CLIENT_ID and paste in 'public/
 
 ## Database
 
-The data base uses a mongo:6.0 and mongo-express:1.0.0-alpha.4 images from docker
+The database uses the following docker images:
+
+- mongo:6.0
+
+- mongo-express:1.0.0-alpha.4
