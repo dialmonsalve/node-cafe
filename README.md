@@ -18,10 +18,6 @@ You need:
 
 - Token id from Google Oauth2
 
-## Database
-
-The data base uses a mongo:6.0 and mongo-express:1.0.0-alpha.4 images from docker
-
 On the file .env, copy the variable named GOOGLE_CLIENT_ID and paste in 'public/index' and search:
 
 ```html
@@ -29,3 +25,7 @@ On the file .env, copy the variable named GOOGLE_CLIENT_ID and paste in 'public/
     data-auto_prompt="false" data-callback="handleCredentialResponse">
 </div>
 ```
+
+## Database
+
+The data base uses a mongo:6.0 and mongo-express:1.0.0-alpha.4 images from docker
