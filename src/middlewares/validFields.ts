@@ -8,8 +8,6 @@ const validFields = (req: Request, res: Response, next: NextFunction) => {
   if (!errors.isEmpty()) {
     return res.status(400).json(errors)
   }
-
-  console.log('Hola');
   
   next();
 

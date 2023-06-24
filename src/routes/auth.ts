@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { login } from '../controllers/auth';
+import { googleSignIn, login } from '../controllers/auth';
 import { validFields } from '../middlewares/validFields';
 
 const router = Router();
@@ -11,9 +11,12 @@ router.post('/login', [
   validFields
 ], login);
 
-// router.post('/', (req:Request, res:Response)=>{
+router.post('/google', [
+  check('id_token', 'Token is requerid').not().isEmpty(),
+  validFields
+], googleSignIn);
 
-// });
+
 
 
 

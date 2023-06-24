@@ -40,7 +40,7 @@ class Server {
     // Read and Parse the body
     this.app.use(express.json())
 
-    this.app.use(express.static('src/public'));
+    this.app.use(express.static('public'));
   }
 
   routes() {
