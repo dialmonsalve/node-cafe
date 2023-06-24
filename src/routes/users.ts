@@ -9,7 +9,7 @@ import {
   putUsers
 } from '../controllers/users';
 
-import { validFields } from '../middlewares/validFields';
+import { validFields, validateJWT, /** isAdminRole, */ hasRole } from '../middlewares';
 import { emailExists, isValidRole, existUserById } from '../utilities/db-validators';
 
 const router = Router();
@@ -26,7 +26,7 @@ router.post('/', [
   validFields
 ], postUsers);
 
-router.put('/:id',[
+router.put('/:id', [
   check('id', 'There is no a valid id').isMongoId(),
   check('id').custom(existUserById),
   check('rol').custom(isValidRole),
@@ -35,7 +35,10 @@ router.put('/:id',[
 
 router.patch('/:id', patchUsers);
 
-router.delete('/:id',[
+router.delete('/:id', [
+  validateJWT,
+  // isAdminRole,
+  hasRole('ADMIN_ROLE', 'USER_ROLE'),
   check('id', 'There is no a valid id').isMongoId(),
   check('id').custom(existUserById),
   validFields

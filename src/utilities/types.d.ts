@@ -1,4 +1,5 @@
 import { Rol } from "./enums";
+import { Request } from 'express';
 
 export interface IUser {
   // id: string;
@@ -12,3 +13,7 @@ export interface IUser {
 }
 
 export type Role = 'ADMIN_ROLE' | 'USER_ROLE' | 'SALE_ROLE'
+
+interface AuthenticatedRequest extends Request {
+  user?: IUser;
+}

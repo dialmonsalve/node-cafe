@@ -2,7 +2,7 @@ import { type Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 
 import User from '../models/user';
-import { IUser } from '../utilities/types';
+import {  IUser } from '../utilities/types';
 
 const getUsers = async (req: Request, res: Response) => {
 
