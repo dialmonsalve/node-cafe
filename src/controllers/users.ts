@@ -1,8 +1,8 @@
 import { type Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 
-import User from '../models/user';
-import {  IUser } from '../utilities/types';
+import { User } from '../models';
+import { IUser } from '../utilities/types';
 
 const getUsers = async (req: Request, res: Response) => {
 
@@ -24,7 +24,7 @@ const getUsers = async (req: Request, res: Response) => {
 const postUsers = async (req: Request, res: Response) => {
 
   const { name, email, password, rol }: IUser = req.body;
-  const user = new User({ name, email, password, rol });
+  const user = new User({ name, email: email.toLowerCase(), password, rol });
 
   // Crypt the password
   const salt = bcryptjs.genSaltSync();
@@ -33,7 +33,7 @@ const postUsers = async (req: Request, res: Response) => {
   // Save on db
   await user.save();
 
-  return res.json({ user });
+  return res.status(201).json({ user });
 }
 
 const putUsers = async (req: Request, res: Response) => {
@@ -49,7 +49,7 @@ const putUsers = async (req: Request, res: Response) => {
 
   const user = await User.findByIdAndUpdate(id, spread, { new: true })
 
-  res.status(201).json(user);
+  return res.json(user);
 }
 
 const patchUsers = (_req: Request, res: Response) => {

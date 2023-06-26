@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 
-import User from '../models/user';
+import { User } from '../models';
 import { generateJWT } from '../utilities/generateJWT';
 import { googleVerify } from '../utilities/google-verify';
 
